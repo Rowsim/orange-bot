@@ -9,18 +9,18 @@ client.on('ready', () => {
 })
 
 // client.on('message', msg => {
-//     console.log(msg)
-//     if (msg.channel.id === '659065267095076864') //TFT Text channel
-//   if (msg.content === 'ping') {
-//     msg.reply('Pong!')
+// //Fairly ugly way to see if runespirit has replied with tier list, then react for items
+//   if (msg.author.username === 'Runespirit' && 
+//     msg.embeds && msg.embeds[0].description.includes('tierlist')) {
 //   }
 // })
 
 client.login(process.env.BOT_TOKEN)
 
-Schedule.scheduleJob('53 * * * *', function(){
-    console.log('The answer to life, the universe, and everything!');
+Schedule.scheduleJob('0 17 * * *', function(){
+    console.log('Running !r cron job');
+    const tftChannel = client.channels.get('659065267095076864');
     const currentDate = new Date();
-    client.channels.get('659065267095076864')
-    .send(`!r teamcomps\n>TFT Team Comps ${currentDate.getDate()}/${currentDate.getMonth()+1}/${currentDate.getFullYear()}`)
+    tftChannel.send(`!r tierlist\n> TFT Item/Champs Tierlist ${currentDate.getDate()}/${currentDate.getMonth()+1}/${currentDate.getFullYear()}`);
+    tftChannel.send(`!r teamcomps\n> TFT Team Comps ${currentDate.getDate()}/${currentDate.getMonth()+1}/${currentDate.getFullYear()}`);
   });
