@@ -6,8 +6,8 @@ module.exports = {
   getFriendsInfo: callback => {
     let tftRanks = [];
     let counter = 0;
-    friendsInfo.info().forEach(async friend => {
-      getById(friend.summonerId, function(result) {
+    friendsInfo.info().forEach(playerDetails => {
+      getById(playerDetails, function(result) {
         tftRanks.push(result);
         counter++;
         if (counter === friendsInfo.info().length) {
@@ -30,7 +30,8 @@ const compareTier = (summonerOne, summonerTwo) => {
     GOLD: 3,
     SILVER: 4,
     BRONZE: 5,
-    IRON: 6
+    IRON: 6,
+    UNRANKED: 7
   };
   const ranks = {
     I: 1,
@@ -45,15 +46,31 @@ const compareTier = (summonerOne, summonerTwo) => {
   } else return tiers[summonerOne.tier] - tiers[summonerTwo.tier];
 };
 
-const getById = (summonerId, callback) => {
+const getById = (summoner, callback) => {
   request(
-    `https://euw1.api.riotgames.com/tft/league/v1/entries/by-summoner/${summonerId}`,
+    `https://euw1.api.riotgames.com/tft/league/v1/entries/by-summoner/${summoner.summonerId}`,
     { json: true, headers: { "X-Riot-Token": process.env.RIOT_TOKEN } },
-    (err, _res, body) => {
+    (err, res, body) => {
       if (err) {
         return console.log(err);
       }
-      callback(body[0]);
+      if (res.statusCode !== 200) {
+        console.log(`Bad request: ${res.statusCode}: ${summoner.summonerId}`);
+      } else if (body[0]) {
+        callback(body[0]);
+      } else {
+        console.log(
+          `No tft/league/v1 summoner info found for ${summoner.summonerId} creating unranked placeholder`
+        );
+        callback({
+          summonerName: summoner.summonerName,
+          tier: "UNRANKED",
+          rank: "",
+          leaguePoints: "0",
+          wins: 0,
+          losses: 0
+        });
+      }
     }
   );
 };

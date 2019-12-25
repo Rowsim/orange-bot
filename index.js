@@ -21,18 +21,11 @@ client.on("ready", () => {
   console.log(`Logged in as ${client.user.tag}!`);
 });
 
-// client.on('message', msg => {
-// //Fairly ugly way to see if runespirit has replied with tier list, then react for items
-//   if (msg.author.username === 'Runespirit' &&
-//     msg.embeds && msg.embeds[0].description.includes('tierlist')) {
-//   }
-// })
-
 client.login(process.env.BOT_TOKEN);
 
 const tftRankingsEmbed = {
-  title: "__Bronze is the new gold__",
-  description: "Updated daily:fire:",
+  title: "__Updated daily__",
+  description: ":fire::fire::fire:",
   url: "https://discordapp.com",
   color: 16742406,
   timestamp: "2019-12-25T16:57:17.270Z",
@@ -40,7 +33,7 @@ const tftRankingsEmbed = {
     icon_url: "https://i.imgur.com/KJ6Xa5A.jpg",
     text: "Orange-bot"
   },
-  image: {
+  thumbnail: {
     url:
       "https://mobalytics.gg/wp-content/uploads/1999/07/Featherknight-Pengu-splash.jpg"
   },
@@ -65,24 +58,25 @@ const tftRankingsEmbed = {
   ]
 };
 
-Schedule.scheduleJob("10 * * * *", () => {
+Schedule.scheduleJob("0 18 * * *", () => {
   leagueInfo.getFriendsInfo(function(summoners) {
-    const tftChannel = client.channels.get("659065267095076864");
     let count = 0;
     summoners.forEach(summoner => {
       if (count > 2) {
         tftRankingsEmbed.fields.push({
-          name: "----------------:feelsbadman:----------------",
+          name: "----------------:wastebasket:----------------",
           value: ""
         });
       }
-      tftRankingsEmbed.fields[
-        count
-      ].value = `[**${summoner.summonerName}**](https://lolchess.gg/profile/euw/${summoner.summonerName})\n${summoner.tier} ${summoner.rank} ${summoner.leaguePoints}LP\n*${summoner.wins} Wins, ${summoner.losses} Losses*`;
+      tftRankingsEmbed.fields[count].value = `[**${
+        summoner.summonerName
+      }**](https://lolchess.gg/profile/euw/${encodeURI(
+        summoner.summonerName
+      )})\n${summoner.tier} ${summoner.rank} ${summoner.leaguePoints}LP\n*${
+        summoner.wins
+      } Wins, ${summoner.losses} Losses*`;
       count++;
     });
-
-    console.log(tftRankingsEmbed);
   });
 
   setTimeout(function() {
