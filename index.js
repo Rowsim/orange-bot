@@ -28,7 +28,7 @@ client.on("ready", () => {
 //   }
 // })
 
-//client.login(process.env.BOT_TOKEN)
+client.login(process.env.BOT_TOKEN);
 
 const tftRankingsEmbed = {
   title: "__Bronze is the new gold__",
@@ -52,11 +52,11 @@ const tftRankingsEmbed = {
   fields: [
     {
       name: "----------------:first_place:----------------",
-      value: "[**Lunar**](https://test.com)\nSilver II\n*12 Wins, 3 Losses*"
+      value: "//"
     },
     {
       name: "----------------:second_place:----------------",
-      value: "[**Nizz**](https://test.com)\nSilver I\n*10 Wins, 3 Losses*"
+      value: "//"
     },
     {
       name: "----------------:third_place:----------------",
@@ -64,10 +64,30 @@ const tftRankingsEmbed = {
     }
   ]
 };
-//channel.send({ embed });
 
-leagueInfo.getFriendsInfo(function(result) {
-  console.log(result);
+Schedule.scheduleJob("10 * * * *", () => {
+  leagueInfo.getFriendsInfo(function(summoners) {
+    const tftChannel = client.channels.get("659065267095076864");
+    let count = 0;
+    summoners.forEach(summoner => {
+      if (count > 2) {
+        tftRankingsEmbed.fields.push({
+          name: "----------------:feelsbadman:----------------",
+          value: ""
+        });
+      }
+      tftRankingsEmbed.fields[
+        count
+      ].value = `[**${summoner.summonerName}**](https://lolchess.gg/profile/euw/${summoner.summonerName})\n${summoner.tier} ${summoner.rank} ${summoner.leaguePoints}LP\n*${summoner.wins} Wins, ${summoner.losses} Losses*`;
+      count++;
+    });
+
+    console.log(tftRankingsEmbed);
+  });
+
+  setTimeout(function() {
+    client.channels.get("659065267095076864").send({ embed: tftRankingsEmbed });
+  }, 5000);
 });
 
 Schedule.scheduleJob("0 17 * * *", function() {
