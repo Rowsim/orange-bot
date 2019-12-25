@@ -26,7 +26,7 @@ client.login(process.env.BOT_TOKEN);
 const tftRankingsEmbed = {
   title: "__Updated daily__",
   description: ":fire::fire::fire:",
-  url: "https://discordapp.com",
+  url: "https://https://lolchess.gg/",
   color: 16742406,
   timestamp: "2019-12-25T16:57:17.270Z",
   footer: {
