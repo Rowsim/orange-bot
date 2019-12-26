@@ -26,7 +26,7 @@ client.login(process.env.BOT_TOKEN);
 const tftRankingsEmbed = {
   title: "__Updated daily__",
   description: ":fire::fire::fire:",
-  url: "https://https://lolchess.gg/",
+  url: "https://lolchess.gg",
   color: 16742406,
   timestamp: "2019-12-25T16:57:17.270Z",
   footer: {
@@ -58,25 +58,31 @@ const tftRankingsEmbed = {
   ]
 };
 
-Schedule.scheduleJob("0 18 * * *", () => {
+Schedule.scheduleJob("0 19 * * *", () => {
   leagueInfo.getFriendsInfo(function(summoners) {
-    let count = 0;
-    summoners.forEach(summoner => {
-      if (count > 2) {
-        tftRankingsEmbed.fields.push({
-          name: "----------------:wastebasket:----------------",
-          value: ""
-        });
-      }
-      tftRankingsEmbed.fields[count].value = `[**${
-        summoner.summonerName
-      }**](https://lolchess.gg/profile/euw/${encodeURI(
-        summoner.summonerName
-      )})\n${summoner.tier} ${summoner.rank} ${summoner.leaguePoints}LP\n*${
-        summoner.wins
-      } Wins, ${summoner.losses} Losses*`;
-      count++;
-    });
+    if (summoners) {
+      let count = 0;
+      summoners.forEach(summoner => {
+        if (count > 2) {
+          tftRankingsEmbed.fields.push({
+            name: "----------------:wastebasket:----------------",
+            value: ""
+          });
+        }
+        tftRankingsEmbed.fields[count].value = `[**${
+          summoner.summonerName
+        }**](https://lolchess.gg/profile/euw/${encodeURI(
+          summoner.summonerName
+        )})\n${summoner.tier} ${summoner.rank} ${summoner.leaguePoints}LP\n*${
+          summoner.wins
+        } Wins, ${summoner.losses} Losses*`;
+        count++;
+      });
+    } else {
+      console.log(
+        "Scheduled job: getFriendsInfo() No summoners found - doing nothing"
+      );
+    }
   });
 
   setTimeout(function() {

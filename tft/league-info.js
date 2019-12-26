@@ -60,7 +60,7 @@ const getById = (summoner, callback) => {
         callback(body[0]);
       } else {
         console.log(
-          `No tft/league/v1 summoner info found for ${summoner.summonerId} creating unranked placeholder`
+          `No tft/league/v1 summoner info found for ${summoner.summonerName}:${summoner.summonerId} creating unranked placeholder`
         );
         callback({
           summonerName: summoner.summonerName,
