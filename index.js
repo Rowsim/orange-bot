@@ -31,7 +31,7 @@ const tftRankingsEmbed = {
   timestamp: "2019-12-25T16:57:17.270Z",
   footer: {
     icon_url: "https://i.imgur.com/KJ6Xa5A.jpg",
-    text: "Orange-bot"
+    text: "Orange-bot by Kiwiseller"
   },
   thumbnail: {
     url:
