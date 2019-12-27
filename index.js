@@ -43,15 +43,15 @@ const tftRankingsEmbed = {
   },
   fields: [
     {
-      name: "----------------:first_place:----------------",
+      name: "---------------:first_place:---------------",
       value: "//"
     },
     {
-      name: "----------------:second_place:----------------",
+      name: "---------------:second_place:---------------",
       value: "//"
     },
     {
-      name: "----------------:third_place:----------------",
+      name: "---------------:third_place:---------------",
       value: "//"
     }
   ]
@@ -64,7 +64,7 @@ Schedule.scheduleJob("0 19 * * *", () => {
       summoners.forEach(summoner => {
         if (count > 2) {
           tftRankingsEmbed.fields.push({
-            name: "----------------:wastebasket:----------------",
+            name: "---------------:wastebasket:---------------",
             value: ""
           });
         }
