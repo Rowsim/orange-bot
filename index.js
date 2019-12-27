@@ -28,7 +28,6 @@ const tftRankingsEmbed = {
   description: ":fire::fire::fire:",
   url: "https://lolchess.gg",
   color: 16742406,
-  timestamp: "2019-12-25T16:57:17.270Z",
   footer: {
     icon_url: "https://i.imgur.com/KJ6Xa5A.jpg",
     text: "Orange-bot by Kiwiseller"
@@ -90,7 +89,7 @@ Schedule.scheduleJob("0 19 * * *", () => {
   }, 5000);
 });
 
-Schedule.scheduleJob("0 17 * * *", function() {
+Schedule.scheduleJob("50 18 * * *", function() {
   console.log("Running !r cron job");
   const tftChannel = client.channels.get("659065267095076864");
   const currentDate = new Date();
