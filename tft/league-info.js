@@ -56,12 +56,16 @@ const getById = (summoner, callback) => {
       }
       if (res.statusCode !== 200) {
         console.log(`Bad request: ${res.statusCode}: ${summoner.summonerId}`);
+        callback(null);
       } else if (body[0]) {
         callback(body[0]);
       } else {
         console.log(
           `No tft/league/v1 summoner info found for ${summoner.summonerName}:${summoner.summonerId} creating unranked placeholder`
         );
+        if(summoner.summonerName === 'Lunar') { //Much needed
+          summoner.summonerName = 'Lunar:poop:'
+        }
         callback({
           summonerName: summoner.summonerName,
           tier: "UNRANKED",
